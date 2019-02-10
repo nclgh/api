@@ -12,5 +12,5 @@
 *.out
 
 ./output
-api
+lakawei_api
 .idea/
