@@ -83,6 +83,25 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:2e184a114912c721955e18648ba524e010f4e784651d101a6662ca9e04f24b7b"
+  name = "github.com/nclgh/lakawei_scaffold"
+  packages = [
+    "kite/kite_common",
+    "kite/passport",
+  ]
+  pruneopts = "UT"
+  revision = "41bc88b81ca7a22df1b470f0b725d9b6268798a9"
+
+[[projects]]
+  digest = "1:cf31692c14422fa27c83a05292eb5cbe0fb2775972e8f1f8446a71549bd8980b"
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "ba968bfe8b2f7e042a574c888954fccecfa385b4"
+  version = "v0.8.1"
+
+[[projects]]
+  branch = "master"
   digest = "1:a3b8912deeef29007fab9a13a9f21b9e9b59c621a2ed61e2fe7b37320a71fbd5"
   name = "github.com/satori/go.uuid"
   packages = ["."]
@@ -133,6 +152,9 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = ["github.com/koding/kite"]
+  input-imports = [
+    "github.com/nclgh/lakawei_scaffold/kite/kite_common",
+    "github.com/nclgh/lakawei_scaffold/kite/passport",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1

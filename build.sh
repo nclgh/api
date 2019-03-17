@@ -3,3 +3,4 @@ rm -rf output
 export GO15VENDOREXPERIMENT="1"
 #go build -ldflags -o ./output/bin/${RUN_NAME}
 go build
+./lakawei_api
