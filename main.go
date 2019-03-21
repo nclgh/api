@@ -1,14 +1,14 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/nclgh/lakawei_gin"
 	"github.com/nclgh/lakawei_api/utils"
 	"github.com/nclgh/lakawei_api/handler"
 )
 
 func main() {
-	router := gin.Default()
-	router.Use(utils.PrepareMiddleWare)
-	handler.SetUpRouter(router)
-	router.Run(":8080")
+	gin := lakawei_gin.Init()
+	gin.Engine.Use(utils.PrepareMiddleWare)
+	handler.SetUpRouter(gin.Engine)
+	lakawei_gin.Run()
 }

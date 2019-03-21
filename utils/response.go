@@ -3,10 +3,9 @@ package utils
 import "github.com/sirupsen/logrus"
 
 type Response struct {
-	Success bool                   `json:"success"`
-	Code    int                    `json:"error_code"`
-	Message string                 `json:"message"`
-	Data    map[string]interface{} `json:"data"`
+	Code int                    `json:"code"`
+	Msg  string                 `json:"msg"`
+	Data map[string]interface{} `json:"data"`
 }
 
 func NewCommonResponse(code int) *Response {
@@ -16,10 +15,9 @@ func NewCommonResponse(code int) *Response {
 		return nil
 	}
 	rsp := &Response{
-		Success: code == CodeSuccess,
-		Code:    code,
-		Message: msg,
-		Data:    make(map[string]interface{}),
+		Code: code,
+		Msg:  msg,
+		Data: make(map[string]interface{}),
 	}
 	return rsp
 }

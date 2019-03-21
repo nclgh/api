@@ -13,7 +13,7 @@ var (
 )
 
 func init() {
-	cli, err := client.Init("ServicePassport")
+	cli, err := client.InitClient("ServicePassport")
 	if err != nil {
 		panic(err)
 	}

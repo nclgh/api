@@ -44,7 +44,7 @@ func t0() {
 }
 
 func t1() {
-	passportCli, err := client.Init("ServicePassport")
+	passportCli, err := client.InitClient("ServicePassport")
 	if err != nil {
 		panic(err)
 	}

@@ -24,7 +24,7 @@ func NewProcessor(ginCtx *gin.Context, handlerName string) (*Processor) {
 func (p *Processor) AbortWithMsg(code int, msg string) {
 	rsp := utils.NewCommonResponse(code)
 	if msg != "" {
-		rsp.Message = msg
+		rsp.Msg = msg
 	}
 	utils.ReplyOnce(p.Ctx, http.StatusOK, rsp)
 }
@@ -32,7 +32,7 @@ func (p *Processor) AbortWithMsg(code int, msg string) {
 func (p *Processor) Success(data map[string]interface{}, msg string) {
 	rsp := utils.NewCommonResponse(0)
 	if msg != "" {
-		rsp.Message = msg
+		rsp.Msg = msg
 	}
 	rsp.Data = data
 	utils.ReplyOnce(p.Ctx, http.StatusOK, rsp)

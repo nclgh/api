@@ -1,11 +1,10 @@
 package utils
 
 var (
-	CodeSuccess  = 0
-	CodePARAMERR = 1
-
-	CodeFailed       = 4
-	CodeLoginRequire = 5
+	CodeSuccess      = 0
+	CodeFailed       = 1
+	CodePARAMERR     = 2
+	CodeLoginRequire = 3
 )
 
 var (

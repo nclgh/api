@@ -97,14 +97,22 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:b6129ec9bfeab1b2b67e3edbc7ea01d44b99b73ba2a3ce3552f1fcdf5d858563"
+  digest = "1:8a916ba761fd3e1e24041ec7ec8a472452b6b0f3ae3ab4710f3f24b4aff5c596"
+  name = "github.com/nclgh/lakawei_gin"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "74afcff3380aba8c25050978f16b11ae1b0663bc"
+
+[[projects]]
+  branch = "master"
+  digest = "1:9c8a0871f6994b590af3dbe28ee6944988bfa9b7d94c92268f712f38f534bce8"
   name = "github.com/nclgh/lakawei_rpc"
   packages = [
     "client",
     "helper",
   ]
   pruneopts = "UT"
-  revision = "97dc854db69171473600b351ac219d06e4565989"
+  revision = "fea11b2af728ef31661c942d214aded4aa8a3575"
 
 [[projects]]
   branch = "master"
@@ -180,8 +188,10 @@
   analyzer-version = 1
   input-imports = [
     "github.com/gin-gonic/gin",
+    "github.com/nclgh/lakawei_gin",
     "github.com/nclgh/lakawei_rpc/client",
     "github.com/nclgh/lakawei_scaffold/rpc/passport",
+    "github.com/sirupsen/logrus",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
