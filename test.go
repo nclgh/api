@@ -2,16 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/nclgh/lakawei_rpc/client"
-	"github.com/nclgh/lakawei_scaffold/rpc/passport"
 	"time"
 	"sync"
 	"net/rpc"
+	"github.com/nclgh/lakawei_rpc/client"
+	"github.com/nclgh/lakawei_scaffold/rpc/passport"
 )
 
 func test() {
-	t0()
-	//t1()
+	//t0()
+	t1()
 }
 
 func t0() {
@@ -44,12 +44,14 @@ func t0() {
 }
 
 func t1() {
-	passportCli := client.RpcClient{}
-	passportCli.Init("ServicePassport")
+	passportCli, err := client.Init("ServicePassport")
+	if err != nil {
+		panic(err)
+	}
 	for {
 		var wg sync.WaitGroup
 		st := time.Now()
-		for i := 0; i < 100; i++ {
+		for i := 0; i < 1; i++ {
 			wg.Add(1)
 			go func() {
 				defer wg.Done()
@@ -57,17 +59,19 @@ func t1() {
 					UserId: 666,
 				}
 				var res passport.CreateSessionResponse
-				tres, err := passportCli.Call(&client.RpcRequestCtx{}, "CreateSession", req, &res)
+				{
+				}
+				err := passportCli.Call(&client.RpcRequestCtx{}, "CreateSession", req, &res)
 				if err != nil {
 					fmt.Println(err)
 					return
 				}
-				_,ok := tres.(*passport.CreateSessionResponse)
-				if !ok {
-					return
-				}
+				//_, ok := tres.(*passport.CreateSessionResponse)
+				//if !ok {
+				//	return
+				//}
 				//realRes := tres.(*passport.CreateSessionResponse)
-				//fmt.Println(realRes.SessionId)
+				fmt.Println(res.SessionId)
 			}()
 		}
 		wg.Wait()

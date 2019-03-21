@@ -56,7 +56,8 @@ func (ctx *RpcRequestCtx) GetRetryTime() int {
 	return ctx.RetryTime
 }
 
-func (cli *RpcClient) Init(serviceName string) {
+func Init(serviceName string) (*RpcClient, error) {
+	cli := &RpcClient{}
 	cli.ServiceName = serviceName
 	cli.clients = make(map[string]*rpc.Client)
 	st := time.Now()
@@ -66,7 +67,7 @@ func (cli *RpcClient) Init(serviceName string) {
 	sub := et.Sub(st).Nanoseconds()
 	fmt.Println("first connect cost", sub, "ns")
 	if len(cli.clients) <= 0 {
-		panic(fmt.Sprintf("service %s has no instance", cli.ServiceName))
+		return nil, fmt.Errorf("service %s has no instance", cli.ServiceName)
 	}
 
 	go func() {
@@ -75,9 +76,10 @@ func (cli *RpcClient) Init(serviceName string) {
 			time.Sleep(AddrUpdateTime)
 		}
 	}()
+	return cli, nil
 }
 
-func (cli *RpcClient) Call(ctx *RpcRequestCtx, method string, req interface{}, ret interface{}) (interface{}, error) {
+func (cli *RpcClient) Call(ctx *RpcRequestCtx, method string, req interface{}, ret interface{}) error {
 	cli.once.Do(func() {
 		panic("rpc addr not init")
 	})
@@ -113,12 +115,12 @@ func (cli *RpcClient) Call(ctx *RpcRequestCtx, method string, req interface{}, r
 	for {
 		select {
 		case timeout := <-expireCh:
-			return nil, timeout
+			return timeout
 		case done := <-doneCh:
 			if err, ok := done.(error); ok {
-				return nil, err
+				return err
 			}
-			return done, nil
+			return nil
 		}
 	}
 }
