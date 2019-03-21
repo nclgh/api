@@ -26,8 +26,16 @@
 
 
 [[constraint]]
+  name = "github.com/gin-gonic/gin"
+  version = "1.3.0"
+
+[[constraint]]
   branch = "master"
-  name = "github.com/koding/kite"
+  name = "github.com/nclgh/lakawei_rpc"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/nclgh/lakawei_scaffold"
 
 [prune]
   go-tests = true

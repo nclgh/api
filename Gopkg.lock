@@ -2,95 +2,120 @@
 
 
 [[projects]]
-  digest = "1:4ba637038f22c9065994c0cd734118fc75e0c744f855fd3edbd3b923d1f41d44"
-  name = "github.com/cenkalti/backoff"
+  digest = "1:9f3b30d9f8e0d7040f729b82dcbc8f0dead820a133b3147ce355fc451f32d761"
+  name = "github.com/BurntSushi/toml"
   packages = ["."]
   pruneopts = "UT"
-  revision = "61153c768f31ee5f130071d08fc82b85208528de"
-  version = "v1.1.0"
+  revision = "3012a1dbe2e4bd1391d42b32f0577cb7bbc7f005"
+  version = "v0.3.1"
 
 [[projects]]
-  digest = "1:76dc72490af7174349349838f2fe118996381b31ea83243812a97e5a0fd5ed55"
-  name = "github.com/dgrijalva/jwt-go"
+  digest = "1:36fe9527deed01d2a317617e59304eb2c4ce9f8a24115bcc5c2e37b3aee5bae4"
+  name = "github.com/gin-contrib/sse"
   packages = ["."]
   pruneopts = "UT"
-  revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
-  version = "v3.2.0"
+  revision = "22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae"
 
 [[projects]]
-  digest = "1:ca59b1175189b3f0e9f1793d2c350114be36eaabbe5b9f554b35edee1de50aea"
-  name = "github.com/gorilla/mux"
+  digest = "1:d5083934eb25e45d17f72ffa86cae3814f4a9d6c073c4f16b64147169b245606"
+  name = "github.com/gin-gonic/gin"
+  packages = [
+    ".",
+    "binding",
+    "json",
+    "render",
+  ]
+  pruneopts = "UT"
+  revision = "b869fe1415e4b9eb52f247441830d502aece2d4d"
+  version = "v1.3.0"
+
+[[projects]]
+  digest = "1:33082c63746b464db3d1c2c07a1396d860484d97fe857ef9e8668a9b406db09f"
+  name = "github.com/go-redis/redis"
+  packages = [
+    ".",
+    "internal",
+    "internal/consistenthash",
+    "internal/hashtag",
+    "internal/pool",
+    "internal/proto",
+    "internal/util",
+  ]
+  pruneopts = "UT"
+  revision = "d22fde8721cc915a55aeb6b00944a76a92bfeb6e"
+  version = "v6.15.2"
+
+[[projects]]
+  digest = "1:6ba96a683441984156b05568b9d31dbc846d3336d21ac220fcc819a367dc1f65"
+  name = "github.com/golang/protobuf"
+  packages = ["proto"]
+  pruneopts = "UT"
+  revision = "5a0f697c9ed9d68fef0116532c6e05cfeae00e55"
+
+[[projects]]
+  digest = "1:0f65b10afa740ebce239838198b7647ca95c6395738bbaec5748aceece17b07c"
+  name = "github.com/jinzhu/configor"
   packages = ["."]
   pruneopts = "UT"
-  revision = "a7962380ca08b5a188038c69871b8d3fbdf31e89"
-  version = "v1.7.0"
+  revision = "4edaf76fe18865e36de734d887f4c01bd05707af"
+  version = "v1.0.0"
 
 [[projects]]
-  digest = "1:7b5c6e2eeaa9ae5907c391a91c132abfd5c9e8a784a341b5625e750c67e6825d"
-  name = "github.com/gorilla/websocket"
+  digest = "1:be97e109f627d3ba8edfef50c9c74f0d0c17cbe3a2e924a8985e4804a894f282"
+  name = "github.com/json-iterator/go"
   packages = ["."]
   pruneopts = "UT"
-  revision = "66b9c49e59c6c48f0ffce28c2d8b8a5678502c6d"
-  version = "v1.4.0"
+  revision = "36b14963da70d11297d313183d7e6388c8510e1e"
+  version = "1.0.0"
 
 [[projects]]
-  digest = "1:949b62c7296e86311e6090620e2c4891d3073eb9b5e25493eaf73d5b38310c1b"
-  name = "github.com/igm/sockjs-go"
-  packages = ["sockjs"]
+  digest = "1:31e761d97c76151dde79e9d28964a812c46efc5baee4085b86f68f0c654450de"
+  name = "github.com/konsorten/go-windows-terminal-sequences"
+  packages = ["."]
   pruneopts = "UT"
-  revision = "c8a8c6429d10e3b6865960ad8cb43779b8a834ef"
+  revision = "f55edac94c9bbba5d6182a4be46d86a2c9b5b50e"
+  version = "v1.0.2"
+
+[[projects]]
+  digest = "1:fa610f9fe6a93f4a75e64c83673dfff9bf1a34bbb21e6102021b6bc7850834a3"
+  name = "github.com/mattn/go-isatty"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "57fdcb988a5c543893cc61bce354a6e24ab70022"
 
 [[projects]]
   branch = "master"
-  digest = "1:190ff84d9b2ed6589088f178cba8edb4b8ecb334df4572421fb016be1ac20463"
-  name = "github.com/juju/ratelimit"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "59fac5042749a5afb9af70e813da1dd5474f0167"
-
-[[projects]]
-  branch = "master"
-  digest = "1:fb893340d734effc171a6be936e9b925e9e5e5a18390e9fb78527c55e0b9a854"
-  name = "github.com/koding/cache"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "e8a81b0b3f20f895153311abde1062894b5912d6"
-
-[[projects]]
-  branch = "master"
-  digest = "1:6913cad8ac45aab1486efe0ef756ad2f5c63d1c2f92ea44d69cb80315aa310f9"
-  name = "github.com/koding/kite"
+  digest = "1:1aa12b6ace2af2c33b2f49a468d5a4868f99efca8b09724eba1a598fbd9e31d0"
+  name = "github.com/nclgh/lakawei_discover"
   packages = [
     ".",
     "config",
-    "dnode",
-    "kitekey",
-    "protocol",
-    "sockjsclient",
-    "systeminfo",
-    "utils",
+    "helper",
   ]
   pruneopts = "UT"
-  revision = "baa1a54919e3035417f7571dd46005e91afe8abe"
+  revision = "d41ff0fa4025665503a9f632a06ee4ce04f3fd9c"
 
 [[projects]]
   branch = "master"
-  digest = "1:b17624f435331c5345ab5d2907bba722ba45adbe13d80a30373688844393f5e1"
-  name = "github.com/koding/logging"
-  packages = ["."]
+  digest = "1:3acea7c3f0613e062d345346fea95d39cb8460cfcc7be548b84b4befa3a403ae"
+  name = "github.com/nclgh/lakawei_rpc"
+  packages = [
+    "client",
+    "helper",
+  ]
   pruneopts = "UT"
-  revision = "8b5a689ed69b1c7cd1e3595276fc2a352d7818e0"
+  revision = "f30512ffd887e1e5d3e655a3821bc432e533a201"
 
 [[projects]]
   branch = "master"
-  digest = "1:2e184a114912c721955e18648ba524e010f4e784651d101a6662ca9e04f24b7b"
+  digest = "1:cae75b4898516d0acfba99bc640101d9052a80d9635b2922934b4041a871668c"
   name = "github.com/nclgh/lakawei_scaffold"
   packages = [
-    "kite/kite_common",
-    "kite/passport",
+    "rpc/common",
+    "rpc/passport",
   ]
   pruneopts = "UT"
-  revision = "41bc88b81ca7a22df1b470f0b725d9b6268798a9"
+  revision = "23d07267c5360c8fcf9c7936a94ebcb5ef0a28dd"
 
 [[projects]]
   digest = "1:cf31692c14422fa27c83a05292eb5cbe0fb2775972e8f1f8446a71549bd8980b"
@@ -101,60 +126,62 @@
   version = "v0.8.1"
 
 [[projects]]
-  branch = "master"
-  digest = "1:a3b8912deeef29007fab9a13a9f21b9e9b59c621a2ed61e2fe7b37320a71fbd5"
-  name = "github.com/satori/go.uuid"
+  digest = "1:e4c72127d910a96daf869a44f3dd563b86dbe6931a172863a0e99c5ff04b59e4"
+  name = "github.com/sirupsen/logrus"
   packages = ["."]
   pruneopts = "UT"
-  revision = "b2ce2384e17bbe0c6d34077efa39dbab3e09123b"
+  revision = "dae0fa8d5b0c810a8ab733fbd5510c7cae84eca4"
+  version = "v1.4.0"
+
+[[projects]]
+  digest = "1:c268acaa4a4d94a467980e5e91452eb61c460145765293dc0aed48e5e9919cc6"
+  name = "github.com/ugorji/go"
+  packages = ["codec"]
+  pruneopts = "UT"
+  revision = "c88ee250d0221a57af388746f5cf03768c21d6e2"
 
 [[projects]]
   branch = "master"
-  digest = "1:fde12c4da6237363bf36b81b59aa36a43d28061167ec4acb0d41fc49464e28b9"
+  digest = "1:058e9504b9a79bfe86092974d05bb3298d2aa0c312d266d43148de289a5065d9"
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
   pruneopts = "UT"
-  revision = "193df9c0f06f8bb35fba505183eaf0acc0136505"
+  revision = "b7391e95e576cacdcdd422573063bc057239113d"
 
 [[projects]]
   branch = "master"
-  digest = "1:76ee51c3f468493aff39dbacc401e8831fbb765104cbf613b89bef01cf4bad70"
-  name = "golang.org/x/net"
-  packages = ["context"]
-  pruneopts = "UT"
-  revision = "65e2d4e15006aab9813ff8769e768bbf4bb667a0"
-
-[[projects]]
-  branch = "master"
-  digest = "1:8975c6b66d95adc1cd08820aba7ad6b60b165725a401c4177c0eaa866170bb10"
+  digest = "1:1aa109187d52894bd8929a34a0a483ea4e57d7e32e86d81c64cea84c1978d68e"
   name = "golang.org/x/sys"
   packages = [
     "unix",
     "windows",
   ]
   pruneopts = "UT"
-  revision = "3b5209105503162ded1863c307ac66fec31120dd"
+  revision = "6c81ef8f67ca3f42fc9cd71dfbd5f35b0c4b5771"
 
 [[projects]]
-  branch = "v2"
-  digest = "1:988de7520a09024d5d94cd99bd545afbf194893994ec759b1cda0a0bbb6adb80"
-  name = "gopkg.in/mgo.v2"
-  packages = [
-    ".",
-    "bson",
-    "internal/json",
-    "internal/sasl",
-    "internal/scram",
-  ]
+  digest = "1:1b4724d3c8125f6044925f02b485b74bfec9905cbf579d95aafd1a6c8f8447d3"
+  name = "gopkg.in/go-playground/validator.v8"
+  packages = ["."]
   pruneopts = "UT"
-  revision = "9856a29383ce1c59f308dd1cf0363a79b5bef6b5"
+  revision = "5f57d2222ad794d0dffb07e664ea05e2ee07d60c"
+  version = "v8.18.1"
+
+[[projects]]
+  digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
+  name = "gopkg.in/yaml.v2"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "51d6538a90f86fe93ac480b35f37b2be17fef232"
+  version = "v2.2.2"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/nclgh/lakawei_scaffold/kite/kite_common",
-    "github.com/nclgh/lakawei_scaffold/kite/passport",
+    "github.com/gin-gonic/gin",
+    "github.com/nclgh/lakawei_rpc/client",
+    "github.com/nclgh/lakawei_scaffold/rpc/passport",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

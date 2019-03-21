@@ -1,6 +1,12 @@
+service=lakawei_api
+
 rm -rf output
-#mkdir -p output/bin output/conf
+mkdir -p output/conf
+cp -rf conf ./output/
 export GO15VENDOREXPERIMENT="1"
-#go build -ldflags -o ./output/bin/${RUN_NAME}
 go build
-./lakawei_api
+mv $service ./output/
+
+# run
+cd ./output
+./$service
