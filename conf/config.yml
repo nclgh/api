@@ -1,3 +1,6 @@
 ServiceName: "ServiceApi"
 ServiceAddr: "127.0.0.1"
 ServicePort: "9702"
+
+
+ServerDomain: "39.108.71.247"

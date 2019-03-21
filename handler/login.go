@@ -2,36 +2,21 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/nclgh/lakawei_rpc/client"
-	"github.com/nclgh/lakawei_scaffold/rpc/passport"
 	"github.com/sirupsen/logrus"
+	"github.com/nclgh/lakawei_api/rpc"
+	"github.com/nclgh/lakawei_api/conf"
 	"github.com/nclgh/lakawei_api/utils"
+	"github.com/nclgh/lakawei_rpc/client"
 )
-
-var (
-	passportCli *client.RpcClient
-)
-
-func init() {
-	cli, err := client.InitClient("ServicePassport")
-	if err != nil {
-		panic(err)
-	}
-	passportCli = cli
-}
 
 func LoginHandler(ctx *gin.Context) {
 	p := NewProcessor(ctx, "LoginHandler")
-	req := passport.CreateSessionRequest{
-		UserId: 666,
-	}
-	rsp := passport.CreateSessionResponse{}
-	err := passportCli.Call(&client.RpcRequestCtx{}, "CreateSession", req, &rsp)
+	rsp, err := rpc.CreateSession(&client.RpcRequestCtx{}, 666)
 	if err != nil {
 		logrus.Errorf("call ServicePassport.CreateSession err: %v", err)
 		p.AbortWithMsg(utils.CodeFailed, "")
 		return
 	}
-	ctx.SetCookie(utils.SessionKey, rsp.SessionId, utils.SessionLife, "/", utils.ServerDomain, false, true)
+	ctx.SetCookie(utils.SessionKey, rsp.SessionId, utils.SessionLife, "/", conf.GetDomain(), false, true)
 	p.Success(nil, "")
 }

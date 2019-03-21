@@ -7,11 +7,13 @@ import (
 	"net/rpc"
 	"github.com/nclgh/lakawei_rpc/client"
 	"github.com/nclgh/lakawei_scaffold/rpc/passport"
+	"os"
 )
 
 func test() {
-	//t0()
-	t1()
+	t0()
+	//t1()
+	os.Exit(0)
 }
 
 func t0() {
@@ -59,8 +61,6 @@ func t1() {
 					UserId: 666,
 				}
 				var res passport.CreateSessionResponse
-				{
-				}
 				err := passportCli.Call(&client.RpcRequestCtx{}, "CreateSession", req, &res)
 				if err != nil {
 					fmt.Println(err)
