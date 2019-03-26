@@ -3,7 +3,7 @@ package clients
 import (
 	"fmt"
 	"github.com/nclgh/lakawei_rpc/client"
-	"github.com/nclgh/lakawei_scaffold/rpc/conf"
+	"github.com/nclgh/lakawei_scaffold/conf"
 )
 
 var (

@@ -12,6 +12,7 @@ func initCommon()  {
 }
 
 func main() {
+	//test()
 	initCommon()
 	gin := lakawei_gin.Init()
 	gin.Engine.Use(utils.PrepareMiddleWare)

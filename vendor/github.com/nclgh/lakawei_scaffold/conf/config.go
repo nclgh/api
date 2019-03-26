@@ -9,7 +9,7 @@ var config *YamlConfig
 
 func initConfig() {
 	data := make(map[interface{}]interface{})
-	configor.New(&configor.Config{}).Load(data, "/opt/lakawei/conf/rpc/config.yml")
+	configor.New(&configor.Config{}).Load(data, "/opt/lakawei/conf/config/config.yml")
 	config = &YamlConfig{data}
 }
 

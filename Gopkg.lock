@@ -135,16 +135,16 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:7550b1eb105d67a80a82b508225324e0ca55aeb072b307bb4ee63c5e6772283f"
+  digest = "1:a8060e9451613bc1e00b97061a51a90e8c516e9e6c8097d18584c0a6e92f7d02"
   name = "github.com/nclgh/lakawei_scaffold"
   packages = [
+    "conf",
     "rpc/clients",
     "rpc/common",
-    "rpc/conf",
     "rpc/passport",
   ]
   pruneopts = "UT"
-  revision = "ba5f609cf3fa23dfb3d976a11b9e378cf9b813a1"
+  revision = "ea66cc3e50b3095aaf6ca243d1d52391f0f657f5"
 
 [[projects]]
   digest = "1:cf31692c14422fa27c83a05292eb5cbe0fb2775972e8f1f8446a71549bd8980b"

@@ -24,34 +24,12 @@ type GetSessionResponse struct {
 	Msg    string
 }
 
-func GetCreateSessionResponse(code common.RspCode, msg string) *CreateSessionResponse {
-	rsp := &CreateSessionResponse{
-		Code: code,
-		Msg:  msg,
-	}
-	if msg == "" {
-		dMsg := common.UnknownCodeMsg
-		m, ok := common.CodeMsg[code]
-		if ok {
-			dMsg = m
-		}
-		rsp.Msg = dMsg
-	}
-	return rsp
+type DeleteSessionRequest struct {
+	UserId int64
 }
 
-func GetGetSessionResponse(code common.RspCode, msg string) *GetSessionResponse {
-	rsp := &GetSessionResponse{
-		Code: code,
-		Msg:  msg,
-	}
-	if msg == "" {
-		dMsg := common.UnknownCodeMsg
-		m, ok := common.CodeMsg[code]
-		if ok {
-			dMsg = m
-		}
-		rsp.Msg = dMsg
-	}
-	return rsp
+type DeleteSessionResponse struct {
+	IsSuccess bool
+	Code      common.RspCode
+	Msg       string
 }
