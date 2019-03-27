@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/nclgh/lakawei_api/utils"
 	"net/http"
+	"github.com/sirupsen/logrus"
 )
 
 type Processor struct {
@@ -36,4 +37,13 @@ func (p *Processor) Success(data map[string]interface{}, msg string) {
 	}
 	rsp.Data = data
 	utils.ReplyOnce(p.Ctx, http.StatusOK, rsp)
+}
+
+func (p *Processor) BindAndCheckForm(form interface{}) bool {
+	if err := p.Ctx.ShouldBind(form); err != nil {
+		logrus.Infof("%v param error. error: %v", p.HandlerName, err)
+		p.AbortWithMsg(utils.CodePARAMERR, "")
+		return false
+	}
+	return true
 }

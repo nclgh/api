@@ -12,10 +12,10 @@ func ReplyOnce(ctx *gin.Context, statusCode int, jsonBodyObj interface{}) {
 		runOnce := run.(*sync.Once)
 		runOnce.Do(
 			func() {
-				ctx.JSON(statusCode, jsonBodyObj)
+				ctx.AbortWithStatusJSON(statusCode, jsonBodyObj)
 			})
 	} else {
-		ctx.JSON(statusCode, jsonBodyObj)
+		ctx.AbortWithStatusJSON(statusCode, jsonBodyObj)
 	}
 }
 
