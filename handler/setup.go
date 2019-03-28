@@ -23,6 +23,7 @@ func setLoginRouter(g *gin.RouterGroup) {
 	g.GET("/ping/", func(c *gin.Context) {
 		utils.ReplyOnce(c, 200, "pong")
 	})
+	g.POST("/user/logout/", LogoutHandler)
 	g.POST("/department/add/", AddDepartmentHandler)
 	g.POST("/department/delete/", DeleteDepartmentHandler)
 	g.GET("/department/query/", QueryDepartmentHandler)

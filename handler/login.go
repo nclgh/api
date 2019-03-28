@@ -7,6 +7,7 @@ import (
 	"github.com/nclgh/lakawei_api/conf"
 	"github.com/nclgh/lakawei_api/utils"
 	"github.com/nclgh/lakawei_rpc/client"
+	"fmt"
 )
 
 type LoginForm struct {
@@ -25,7 +26,7 @@ func LoginHandler(ctx *gin.Context) {
 	cRsp, err := rpc.CheckUserIdentity(&client.RpcRequestCtx{}, form.Username, form.Password)
 	if err != nil {
 		logrus.Errorf("call ServiceMember.CheckUserIdentity err: %v", err)
-		p.AbortWithMsg(utils.CodeFailed, "")
+		p.AbortWithMsg(utils.CodeFailed, fmt.Sprintf("err: %v", err))
 		return
 	}
 
@@ -38,11 +39,25 @@ func LoginHandler(ctx *gin.Context) {
 	rsp, err := rpc.CreateSession(&client.RpcRequestCtx{}, cRsp.UserId)
 	if err != nil {
 		logrus.Errorf("call ServicePassport.CreateSession err: %v", err)
-		p.AbortWithMsg(utils.CodeFailed, "")
+		p.AbortWithMsg(utils.CodeFailed, fmt.Sprintf("err: %v", err))
 		return
 	}
 	ctx.SetCookie(utils.SessionKey, rsp.SessionId, utils.SessionLife, "/", conf.GetDomain(), false, true)
-	// TODO
-	ctx.SetCookie(utils.SessionKey, rsp.SessionId, utils.SessionLife, "/", "127.0.0.1", false, true)
+	p.Success(nil, "")
+}
+
+func LogoutHandler(ctx *gin.Context) {
+	p := NewProcessor(ctx, "LogoutHandler")
+	auth, ok := p.GetAuth()
+	if !ok {
+		return
+	}
+	_, err := rpc.DeleteSession(&client.RpcRequestCtx{}, auth.UserId)
+	if err != nil {
+		logrus.Errorf("call ServicePassport.DeleteSession err: %v", err)
+		p.AbortWithMsg(utils.CodeFailed, fmt.Sprintf("err: %v", err))
+		return
+	}
+	ctx.SetCookie(utils.SessionKey, "", -1, "/", conf.GetDomain(), false, true)
 	p.Success(nil, "")
 }

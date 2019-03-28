@@ -21,3 +21,18 @@ func CreateSession(ctx *client.RpcRequestCtx, userId int64) (*passport.CreateSes
 	}
 	return rsp, nil
 }
+
+func DeleteSession(ctx *client.RpcRequestCtx, userId int64) (*passport.DeleteSessionResponse, error) {
+	req := passport.DeleteSessionRequest{
+		UserId: userId,
+	}
+	rsp := &passport.DeleteSessionResponse{}
+	err := GetPassportClient().Call(&client.RpcRequestCtx{}, "DeleteSession", req, rsp)
+	if err != nil {
+		return nil, err
+	}
+	if rsp.Code != common.CodeSuccess {
+		return rsp, fmt.Errorf("call DeleteSession failed. code: %v, msg: %v", rsp.Code, rsp.Msg)
+	}
+	return rsp, nil
+}

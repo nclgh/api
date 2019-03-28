@@ -47,3 +47,12 @@ func (p *Processor) BindAndCheckForm(form interface{}) bool {
 	}
 	return true
 }
+
+func (p *Processor) GetAuth() (*utils.Auth, bool) {
+	auth, ok := p.Ctx.Get(utils.ContextKeyAuth)
+	if !ok {
+		p.AbortWithMsg(utils.CodeFailed, "auth not exist")
+		return nil, ok
+	}
+	return auth.(*utils.Auth), true
+}
