@@ -16,8 +16,7 @@ func SetRouter(router *gin.Engine, setRouter func(*gin.RouterGroup), middleWares
 }
 
 func setNoLoginRouter(g *gin.RouterGroup) {
-	// TODO 完成user服务后改为post
-	g.GET("/user/login/", LoginHandler)
+	g.POST("/user/login/", LoginHandler)
 }
 
 func setLoginRouter(g *gin.RouterGroup) {
@@ -38,4 +37,7 @@ func setLoginRouter(g *gin.RouterGroup) {
 	g.POST("/device/achievement/add/", AddAchievementHandler)
 	g.POST("/device/achievement/delete/", DeleteAchievementHandler)
 	g.GET("/device/achievement/query/", QueryAchievementHandler)
+	g.POST("/device/rent/lend/", AddRentHandler)
+	g.POST("/device/rent/return/", ReturnRentHandler)
+	g.GET("/device/rent/query/", QueryRentHandler)
 }

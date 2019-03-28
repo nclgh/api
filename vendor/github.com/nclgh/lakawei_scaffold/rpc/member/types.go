@@ -17,7 +17,6 @@ type CheckUserIdentityResponse struct {
 
 // Department
 type Department struct {
-	Id   int64  `json:"id"`
 	Code string `json:"code"`
 	Name string `json:"name"`
 }
@@ -31,8 +30,9 @@ type AddDepartmentResponse struct {
 	Code common.RspCode
 	Msg  string
 }
+
 type DeleteDepartmentRequest struct {
-	Id int64
+	Code string
 }
 
 type DeleteDepartmentResponse struct {
@@ -40,12 +40,12 @@ type DeleteDepartmentResponse struct {
 	Msg  string
 }
 
-type GetDepartmentByIdRequest struct {
-	Ids []int64
+type GetDepartmentByCodeRequest struct {
+	Codes []string
 }
 
-type GetDepartmentByIdResponse struct {
-	Departments map[int64]*Department
+type GetDepartmentByCodeResponse struct {
+	Departments map[string]*Department
 	Code        common.RspCode
 	Msg         string
 }
@@ -57,7 +57,7 @@ type QueryDepartmentRequest struct {
 }
 
 type QueryDepartmentResponse struct {
-	Departments map[int64]*Department
+	Departments map[string]*Department
 	TotalCount  int64
 	Code        common.RspCode
 	Msg         string
@@ -65,16 +65,15 @@ type QueryDepartmentResponse struct {
 
 // Member
 type Member struct {
-	Id           int64  `json:"id"`
-	Code         string `json:"code"`
-	Name         string `json:"name"`
-	DepartmentId int64  `json:"department_id"`
+	Code           string `json:"code"`
+	Name           string `json:"name"`
+	DepartmentCode string `json:"department_code"`
 }
 
 type AddMemberRequest struct {
-	Code         string
-	Name         string
-	DepartmentId int64
+	Code           string
+	Name           string
+	DepartmentCode string
 }
 
 type AddMemberResponse struct {
@@ -83,7 +82,7 @@ type AddMemberResponse struct {
 }
 
 type DeleteMemberRequest struct {
-	Id int64
+	Code string
 }
 
 type DeleteMemberResponse struct {
@@ -91,12 +90,12 @@ type DeleteMemberResponse struct {
 	Msg  string
 }
 
-type GetMemberByIdRequest struct {
-	Ids []int64
+type GetMemberByCodeRequest struct {
+	Codes []string
 }
 
-type GetMemberByIdResponse struct {
-	Members map[int64]*Member
+type GetMemberByCodeResponse struct {
+	Members map[string]*Member
 	Code    common.RspCode
 	Msg     string
 }
@@ -108,7 +107,7 @@ type QueryMemberRequest struct {
 }
 
 type QueryMemberResponse struct {
-	Members    map[int64]*Member
+	Members    map[string]*Member
 	TotalCount int64
 	Code       common.RspCode
 	Msg        string

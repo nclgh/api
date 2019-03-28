@@ -11,19 +11,19 @@ var (
 )
 
 func GetRpcClient(service string) *client.RpcClient {
+	if cli, ok := clients[service]; ok {
+		return cli
+	}
 	c := conf.GetConfig()
 	serviceName := c.DefaultString(fmt.Sprintf("%sServiceName", service), "")
 	if serviceName == "" {
 		panic(fmt.Sprintf("%s serviceName not found", service))
 	}
 
-	if cli, ok := clients[serviceName]; ok {
-		return cli
-	}
 	cli, err := client.InitClient(serviceName)
 	if err != nil {
 		panic(err)
 	}
-	clients[serviceName] = cli
+	clients[service] = cli
 	return cli
 }

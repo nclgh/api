@@ -66,3 +66,16 @@ func QueryManufacturerHandler(ctx *gin.Context) {
 	}
 	p.Success(data, "")
 }
+
+func GetRspManufacturer(data map[string]interface{}, ids map[int64]bool) error {
+	manuIds := make([]int64, 0)
+	for k, _ := range ids {
+		manuIds = append(manuIds, k)
+	}
+	depRsp, err := rpc.GetManufacturerById(&client.RpcRequestCtx{}, manuIds)
+	if err != nil {
+		return err
+	}
+	data["manufacturer"] = depRsp.Manufacturers
+	return nil
+}

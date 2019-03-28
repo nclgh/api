@@ -35,12 +35,12 @@ func AddDepartmentHandler(ctx *gin.Context) {
 func DeleteDepartmentHandler(ctx *gin.Context) {
 	p := NewProcessor(ctx, "DeleteDepartmentHandler")
 
-	form := DeleteForm{}
+	form := DeleteByCodeForm{}
 	if ok := p.BindAndCheckForm(&form); !ok {
 		return
 	}
 
-	_, err := rpc.DeleteDepartment(&client.RpcRequestCtx{}, form.Id)
+	_, err := rpc.DeleteDepartment(&client.RpcRequestCtx{}, form.Code)
 	if err != nil {
 		logrus.Errorf("call ServiceMember.DeleteDepartment err: %v", err)
 		p.AbortWithMsg(utils.CodeFailed, fmt.Sprintf("%v", err))
@@ -79,4 +79,17 @@ func QueryDepartmentHandler(ctx *gin.Context) {
 		TotalCount:  rsp.TotalCount,
 	}
 	p.Success(data, "")
+}
+
+func GetRspDepartment(data map[string]interface{}, codes map[string]bool) error {
+	departmentCodes := make([]string, 0)
+	for k, _ := range codes {
+		departmentCodes = append(departmentCodes, k)
+	}
+	depRsp, err := rpc.GetDepartmentByCode(&client.RpcRequestCtx{}, departmentCodes)
+	if err != nil {
+		return err
+	}
+	data["department"] = depRsp.Departments
+	return nil
 }

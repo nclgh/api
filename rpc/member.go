@@ -39,9 +39,9 @@ func AddDepartment(ctx *client.RpcRequestCtx, code, name string) (*member.AddDep
 	return rsp, nil
 }
 
-func DeleteDepartment(ctx *client.RpcRequestCtx, id int64) (*member.DeleteDepartmentResponse, error) {
+func DeleteDepartment(ctx *client.RpcRequestCtx, code string) (*member.DeleteDepartmentResponse, error) {
 	req := member.DeleteDepartmentRequest{
-		Id: id,
+		Code: code,
 	}
 	rsp := &member.DeleteDepartmentResponse{}
 	err := GetMemberClient().Call(&client.RpcRequestCtx{}, "DeleteDepartment", req, rsp)
@@ -54,17 +54,17 @@ func DeleteDepartment(ctx *client.RpcRequestCtx, id int64) (*member.DeleteDepart
 	return rsp, nil
 }
 
-func GetDepartmentById(ctx *client.RpcRequestCtx, ids []int64) (*member.GetDepartmentByIdResponse, error) {
-	req := member.GetDepartmentByIdRequest{
-		Ids: ids,
+func GetDepartmentByCode(ctx *client.RpcRequestCtx, codes []string) (*member.GetDepartmentByCodeResponse, error) {
+	req := member.GetDepartmentByCodeRequest{
+		Codes: codes,
 	}
-	rsp := &member.GetDepartmentByIdResponse{}
-	err := GetMemberClient().Call(&client.RpcRequestCtx{}, "GetDepartmentById", req, rsp)
+	rsp := &member.GetDepartmentByCodeResponse{}
+	err := GetMemberClient().Call(&client.RpcRequestCtx{}, "GetDepartmentByCode", req, rsp)
 	if err != nil {
 		return nil, err
 	}
 	if rsp.Code != common.CodeSuccess {
-		return nil, fmt.Errorf("call GetDepartmentById failed. code: %v, msg: %v", rsp.Code, rsp.Msg)
+		return nil, fmt.Errorf("call GetDepartmentByCode failed. code: %v, msg: %v", rsp.Code, rsp.Msg)
 	}
 	return rsp, nil
 }
@@ -86,11 +86,11 @@ func QueryDepartment(ctx *client.RpcRequestCtx, d *member.Department, page, page
 	return rsp, nil
 }
 
-func AddMember(ctx *client.RpcRequestCtx, code, name string, departmentId int64) (*member.AddMemberResponse, error) {
+func AddMember(ctx *client.RpcRequestCtx, code, name string, departmentCode string) (*member.AddMemberResponse, error) {
 	req := member.AddMemberRequest{
-		Code:         code,
-		Name:         name,
-		DepartmentId: departmentId,
+		Code:           code,
+		Name:           name,
+		DepartmentCode: departmentCode,
 	}
 	rsp := &member.AddMemberResponse{}
 	err := GetMemberClient().Call(&client.RpcRequestCtx{}, "AddMember", req, rsp)
@@ -103,9 +103,9 @@ func AddMember(ctx *client.RpcRequestCtx, code, name string, departmentId int64)
 	return rsp, nil
 }
 
-func DeleteMember(ctx *client.RpcRequestCtx, id int64) (*member.DeleteMemberResponse, error) {
+func DeleteMember(ctx *client.RpcRequestCtx, code string) (*member.DeleteMemberResponse, error) {
 	req := member.DeleteMemberRequest{
-		Id: id,
+		Code: code,
 	}
 	rsp := &member.DeleteMemberResponse{}
 	err := GetMemberClient().Call(&client.RpcRequestCtx{}, "DeleteMember", req, rsp)
@@ -118,17 +118,17 @@ func DeleteMember(ctx *client.RpcRequestCtx, id int64) (*member.DeleteMemberResp
 	return rsp, nil
 }
 
-func GetMemberById(ctx *client.RpcRequestCtx, ids []int64) (*member.GetMemberByIdResponse, error) {
-	req := member.GetMemberByIdRequest{
-		Ids: ids,
+func GetMemberByCode(ctx *client.RpcRequestCtx, codes []string) (*member.GetMemberByCodeResponse, error) {
+	req := member.GetMemberByCodeRequest{
+		Codes: codes,
 	}
-	rsp := &member.GetMemberByIdResponse{}
-	err := GetMemberClient().Call(&client.RpcRequestCtx{}, "GetMemberById", req, rsp)
+	rsp := &member.GetMemberByCodeResponse{}
+	err := GetMemberClient().Call(&client.RpcRequestCtx{}, "GetMemberByCode", req, rsp)
 	if err != nil {
 		return nil, err
 	}
 	if rsp.Code != common.CodeSuccess {
-		return nil, fmt.Errorf("call GetMemberById failed. code: %v, msg: %v", rsp.Code, rsp.Msg)
+		return nil, fmt.Errorf("call GetMemberByCode failed. code: %v, msg: %v", rsp.Code, rsp.Msg)
 	}
 	return rsp, nil
 }

@@ -59,3 +59,22 @@ func ApiLoginRequireMiddleWare(c *gin.Context) {
 	}
 	c.Set(ContextKeyAuth, auth)
 }
+
+func AllowCrossOrigin(c *gin.Context) {
+	origin := c.Request.Header.Get("Origin")
+	if origin == "" {
+		return
+	}
+	accessHeaders := c.Request.Header.Get("Access-Control-Request-Headers")
+	if accessHeaders != "" {
+		c.Header("Access-Control-Allow-Headers", accessHeaders)
+	}
+	c.Header("Access-Control-Allow-Origin", origin)
+	c.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	c.Header("Access-Control-Allow-Credentials", "true")
+	c.Header("Access-Control-Max-Age", "86400")
+	method := c.Request.Method
+	if method == "OPTIONS" {
+		c.AbortWithStatus(200)
+	}
+}

@@ -10,13 +10,14 @@ import (
 	"github.com/nclgh/lakawei_api/utils"
 	"github.com/nclgh/lakawei_rpc/client"
 	"github.com/nclgh/lakawei_scaffold/rpc/device"
+	"github.com/nclgh/lakawei_scaffold/rpc/common"
 )
 
 type Achievement struct {
 	Id                     int64  `json:"id"`
-	DeviceId               int64  `json:"device_id"`
-	MemberId               int64  `json:"member_id"`
-	DepartmemtId           int64  `json:"departmemt_id"`
+	DeviceCode             string `json:"device_code"`
+	MemberCode             string `json:"member_code"`
+	DepartmentCode         string `json:"department_code"`
 	AchievementDate        int64  `json:"achievement_date"`
 	AchievementDescription string `json:"achievement_description"`
 	AchievementRemark      string `json:"achievement_remark"`
@@ -28,9 +29,9 @@ type Achievement struct {
 func tranAchievement(v *device.Achievement) *Achievement {
 	return &Achievement{
 		Id:                     v.Id,
-		DeviceId:               v.DeviceId,
-		MemberId:               v.MemberId,
-		DepartmemtId:           v.DepartmentId,
+		DeviceCode:             v.DeviceCode,
+		MemberCode:             v.MemberCode,
+		DepartmentCode:         v.DepartmentCode,
 		AchievementDate:        v.AchievementDate.Unix(),
 		AchievementDescription: v.AchievementDescription,
 		AchievementRemark:      v.AchievementRemark,
@@ -40,18 +41,25 @@ func tranAchievement(v *device.Achievement) *Achievement {
 	}
 }
 
-func batchTranAchievement(dm map[int64]*device.Achievement) []*Achievement {
-	ds := make([]*Achievement, 0)
+func batchTranAchievement(dm map[int64]*device.Achievement) (achis []*Achievement, devCode map[string]bool, memCode map[string]bool, deptCode map[string]bool) {
+	achis = make([]*Achievement, 0)
+	devCode = make(map[string]bool)
+	memCode = make(map[string]bool)
+	deptCode = make(map[string]bool)
+
 	for _, v := range dm {
-		ds = append(ds, tranAchievement(v))
+		achis = append(achis, tranAchievement(v))
+		devCode[v.DeviceCode] = true
+		memCode[v.MemberCode] = true
+		deptCode[v.DepartmentCode] = true
 	}
-	return ds
+	return achis, devCode, memCode, deptCode
 }
 
 type AddAchievementForm struct {
-	DeviceId               int64  `form:"device_id" binding:"required"`
-	MemberId               int64  `form:"member_id" binding:"required"`
-	DepartmentId           int64  `form:"department_id" binding:"required"`
+	DeviceCode             string `form:"device_code" binding:"required"`
+	MemberCode             string `form:"member_code" binding:"required"`
+	DepartmentCode         string `form:"department_code" binding:"required"`
 	AchievementDate        int64  `form:"achievement_date" binding:"required"`
 	AchievementDescription string `form:"achievement_description" binding:"required"`
 	AchievementRemark      string `form:"achievement_remark" binding:"required"`
@@ -68,9 +76,9 @@ func AddAchievementHandler(ctx *gin.Context) {
 		return
 	}
 	_, err := rpc.AddAchievement(&client.RpcRequestCtx{}, device.Achievement{
-		DeviceId:               form.DeviceId,
-		MemberId:               form.MemberId,
-		DepartmentId:           form.DepartmentId,
+		DeviceCode:             form.DeviceCode,
+		MemberCode:             form.MemberCode,
+		DepartmentCode:         form.DepartmentCode,
 		AchievementDate:        time.Unix(form.AchievementDate, 0),
 		AchievementDescription: form.AchievementDescription,
 		AchievementRemark:      form.AchievementRemark,
@@ -105,11 +113,11 @@ func DeleteAchievementHandler(ctx *gin.Context) {
 
 type QueryAchievementForm struct {
 	QueryPageForm
-	DeviceId             int64 `form:"device_id"`
-	MemberId             int64 `form:"member_id"`
-	DepartmentId         int64 `form:"department_id"`
-	AchievementDateStart int64 `form:"achievement_date_start"`
-	AchievementDateEnd   int64 `form:"achievement_date_end"`
+	CommonDeviceQueryForm
+	MemberCode           string `form:"member_code"`
+	DepartmentCode       string `form:"department_code"`
+	AchievementDateStart int64  `form:"achievement_date_start"`
+	AchievementDateEnd   int64  `form:"achievement_date_end"`
 }
 
 func QueryAchievementHandler(ctx *gin.Context) {
@@ -119,31 +127,76 @@ func QueryAchievementHandler(ctx *gin.Context) {
 	if ok := p.BindAndCheckForm(&form); !ok {
 		return
 	}
-	tf := make([]*device.TimeFilter, 0)
+	filter := &common.Filter{}
+	// 成就时间 查询
 	if form.AchievementDateStart != 0 || form.AchievementDateEnd != 0 {
-		tf = append(tf, &device.TimeFilter{
+		filter.TF = append(filter.TF, &common.TimeFilter{
 			Field: "achievement_date",
 			Start: time.Unix(form.AchievementDateStart, 0),
 			End:   time.Unix(form.AchievementDateEnd, 0),
 		})
 	}
+	// 设备相关查询
+	if form.ConditionExist() {
+		rspDevice, err := rpc.QueryDevice(&client.RpcRequestCtx{}, &device.Device{
+			Code:           form.CommonDeviceQueryForm.Code,
+			Name:           form.CommonDeviceQueryForm.Name,
+			Model:          form.CommonDeviceQueryForm.Model,
+			Brand:          form.CommonDeviceQueryForm.Brand,
+			TagCode:        form.CommonDeviceQueryForm.TagCode,
+			DepartmentCode: form.CommonDeviceQueryForm.DepartmentCode,
+		}, 0, QueryAllCnt, &common.Filter{})
+		if err != nil {
+			logrus.Errorf("call ServiceDevice.QueryDevice err: %v", err)
+			p.AbortWithMsg(utils.CodeFailed, fmt.Sprintf("%v", err))
+			return
+		}
+		deviceIds := make([]string, 0)
+		for _, v := range rspDevice.Devices {
+			deviceIds = append(deviceIds, v.Code)
+		}
+		filter.IF = append(filter.IF, &common.InFilter{
+			Field:     "device_code",
+			Condition: deviceIds,
+		})
+	}
+
 	rsp, err := rpc.QueryAchievement(&client.RpcRequestCtx{}, &device.Achievement{
-		DeviceId:     form.DeviceId,
-		MemberId:     form.MemberId,
-		DepartmentId: form.DepartmentId,
-	}, form.Page-1, form.Size, tf)
+		MemberCode:     form.MemberCode,
+		DepartmentCode: form.DepartmentCode,
+	}, form.Page-1, form.Size, filter)
 	if err != nil {
-		logrus.Errorf("call ServiceAchievement.QueryAchievement err: %v", err)
+		logrus.Errorf("call ServiceDevice.QueryAchievement err: %v", err)
 		p.AbortWithMsg(utils.CodeFailed, fmt.Sprintf("%v", err))
 		return
 	}
-	ds := batchTranAchievement(rsp.Achievements)
-	sort.Slice(ds, func(i, j int) bool {
-		return ds[i].Id >= ds[j].Id
+	achis, devCodes, memCodes, deptCodes := batchTranAchievement(rsp.Achievements)
+	sort.Slice(achis, func(i, j int) bool {
+		return achis[i].Id >= achis[j].Id
 	})
 
 	data := make(map[string]interface{})
-	data["achievement"] = ds
+
+	err = GetRspMember(data, memCodes, deptCodes)
+	if err != nil {
+		logrus.Errorf("achievement get member err: %v", err)
+		p.AbortWithMsg(utils.CodeFailed, fmt.Sprintf("%v", err))
+		return
+	}
+	err = GetRspDepartment(data, deptCodes)
+	if err != nil {
+		logrus.Errorf("achievement get department err: %v", err)
+		p.AbortWithMsg(utils.CodeFailed, fmt.Sprintf("%v", err))
+		return
+	}
+	err = GetRspDevice(data, devCodes)
+	if err != nil {
+		logrus.Errorf("achievement get device err: %v", err)
+		p.AbortWithMsg(utils.CodeFailed, fmt.Sprintf("%v", err))
+		return
+	}
+
+	data["achievement"] = achis
 	data["page_info"] = PageInfo{
 		CurrentPage: form.Page,
 		TotalPages:  rsp.TotalCount / form.Size,

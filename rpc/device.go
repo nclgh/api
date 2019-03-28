@@ -69,9 +69,9 @@ func AddDevice(ctx *client.RpcRequestCtx, d device.Device) (*device.AddDeviceRes
 	return rsp, nil
 }
 
-func DeleteDevice(ctx *client.RpcRequestCtx, id int64) (*device.DeleteDeviceResponse, error) {
+func DeleteDevice(ctx *client.RpcRequestCtx, code string) (*device.DeleteDeviceResponse, error) {
 	req := device.DeleteDeviceRequest{
-		Id: id,
+		Code: code,
 	}
 	rsp := &device.DeleteDeviceResponse{}
 	err := GetDeviceClient().Call(&client.RpcRequestCtx{}, "DeleteDevice", req, rsp)
@@ -84,27 +84,27 @@ func DeleteDevice(ctx *client.RpcRequestCtx, id int64) (*device.DeleteDeviceResp
 	return rsp, nil
 }
 
-func GetDeviceById(ctx *client.RpcRequestCtx, ids []int64) (*device.GetDeviceByIdResponse, error) {
-	req := device.GetDeviceByIdRequest{
-		Ids: ids,
+func GetDeviceByCode(ctx *client.RpcRequestCtx, codes []string) (*device.GetDeviceByCodeResponse, error) {
+	req := device.GetDeviceByCodeRequest{
+		Codes: codes,
 	}
-	rsp := &device.GetDeviceByIdResponse{}
-	err := GetDeviceClient().Call(&client.RpcRequestCtx{}, "GetDeviceById", req, rsp)
+	rsp := &device.GetDeviceByCodeResponse{}
+	err := GetDeviceClient().Call(&client.RpcRequestCtx{}, "GetDeviceByCode", req, rsp)
 	if err != nil {
 		return nil, err
 	}
 	if rsp.Code != common.CodeSuccess {
-		return nil, fmt.Errorf("call GetDeviceById failed. code: %v, msg: %v", rsp.Code, rsp.Msg)
+		return nil, fmt.Errorf("call GetDeviceByCode failed. code: %v, msg: %v", rsp.Code, rsp.Msg)
 	}
 	return rsp, nil
 }
 
-func QueryDevice(ctx *client.RpcRequestCtx, d *device.Device, page, pageSize int64, filter []*device.TimeFilter) (*device.QueryDeviceResponse, error) {
+func QueryDevice(ctx *client.RpcRequestCtx, d *device.Device, page, pageSize int64, filter *common.Filter) (*device.QueryDeviceResponse, error) {
 	req := device.QueryDeviceRequest{
-		Device:     d,
-		TimeFilter: filter,
-		Page:       page,
-		PageSize:   pageSize,
+		Device:   d,
+		Filter:   filter,
+		Page:     page,
+		PageSize: pageSize,
 	}
 	rsp := &device.QueryDeviceResponse{}
 	err := GetDeviceClient().Call(&client.RpcRequestCtx{}, "QueryDevice", req, rsp)
@@ -116,6 +116,7 @@ func QueryDevice(ctx *client.RpcRequestCtx, d *device.Device, page, pageSize int
 	}
 	return rsp, nil
 }
+
 func AddAchievement(ctx *client.RpcRequestCtx, d device.Achievement) (*device.AddAchievementResponse, error) {
 	req := device.AddAchievementRequest{
 		Achievement: d,
@@ -161,10 +162,10 @@ func GetAchievementById(ctx *client.RpcRequestCtx, ids []int64) (*device.GetAchi
 	return rsp, nil
 }
 
-func QueryAchievement(ctx *client.RpcRequestCtx, d *device.Achievement, page, pageSize int64, filter []*device.TimeFilter) (*device.QueryAchievementResponse, error) {
+func QueryAchievement(ctx *client.RpcRequestCtx, d *device.Achievement, page, pageSize int64, filter *common.Filter) (*device.QueryAchievementResponse, error) {
 	req := device.QueryAchievementRequest{
 		Achievement: d,
-		TimeFilter:  filter,
+		Filter:      filter,
 		Page:        page,
 		PageSize:    pageSize,
 	}
@@ -175,6 +176,56 @@ func QueryAchievement(ctx *client.RpcRequestCtx, d *device.Achievement, page, pa
 	}
 	if rsp.Code != common.CodeSuccess {
 		return nil, fmt.Errorf("call QueryAchievement failed. code: %v, msg: %v", rsp.Code, rsp.Msg)
+	}
+	return rsp, nil
+}
+
+func AddRent(ctx *client.RpcRequestCtx, d device.Rent) (*device.AddRentResponse, error) {
+	req := device.AddRentRequest{
+		Rent: d,
+	}
+	rsp := &device.AddRentResponse{}
+	err := GetDeviceClient().Call(&client.RpcRequestCtx{}, "AddRent", req, rsp)
+	if err != nil {
+		return nil, err
+	}
+	if rsp.Code != common.CodeSuccess {
+		return nil, fmt.Errorf("call AddRent failed. code: %v, msg: %v", rsp.Code, rsp.Msg)
+	}
+	return rsp, nil
+}
+
+func ReturnRent(ctx *client.RpcRequestCtx, deviceCode string, memberCode string, remark string) (*device.ReturnRentResponse, error) {
+	req := device.ReturnRentRequest{
+		DeviceCode:         deviceCode,
+		ReturnerMemberCode: memberCode,
+		ReturnRemark:       remark,
+	}
+	rsp := &device.ReturnRentResponse{}
+	err := GetDeviceClient().Call(&client.RpcRequestCtx{}, "ReturnRent", req, rsp)
+	if err != nil {
+		return nil, err
+	}
+	if rsp.Code != common.CodeSuccess {
+		return nil, fmt.Errorf("call ReturnRent failed. code: %v, msg: %v", rsp.Code, rsp.Msg)
+	}
+	return rsp, nil
+}
+
+func QueryRent(ctx *client.RpcRequestCtx, d *device.Rent, page, pageSize int64, filter *common.Filter) (*device.QueryRentResponse, error) {
+	req := device.QueryRentRequest{
+		Rent:     d,
+		Filter:   filter,
+		Page:     page,
+		PageSize: pageSize,
+	}
+	rsp := &device.QueryRentResponse{}
+	err := GetDeviceClient().Call(&client.RpcRequestCtx{}, "QueryRent", req, rsp)
+	if err != nil {
+		return nil, err
+	}
+	if rsp.Code != common.CodeSuccess {
+		return nil, fmt.Errorf("call QueryRent failed. code: %v, msg: %v", rsp.Code, rsp.Msg)
 	}
 	return rsp, nil
 }
