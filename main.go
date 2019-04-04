@@ -21,6 +21,7 @@ func main() {
 	//test()
 	initCommon()
 	gin := lakawei_gin.Init()
+	gin.Engine.Use(utils.RequestReport)
 	gin.Engine.Use(utils.PrepareMiddleWare)
 	gin.Engine.Use(utils.AllowCrossOrigin)
 	handler.SetUpRouter(gin.Engine)

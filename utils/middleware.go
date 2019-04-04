@@ -7,6 +7,7 @@ import (
 	"github.com/nclgh/lakawei_api/rpc"
 	"github.com/nclgh/lakawei_rpc/client"
 	"github.com/nclgh/lakawei_scaffold/rpc/passport"
+	"time"
 )
 
 const (
@@ -77,4 +78,11 @@ func AllowCrossOrigin(c *gin.Context) {
 	if method == "OPTIONS" {
 		c.AbortWithStatus(200)
 	}
+}
+
+func RequestReport(c *gin.Context) {
+	et := time.Now()
+	c.Next()
+	det := time.Now().Sub(et)
+	logrus.Infof("Host=%v, Method=%v, Url=%v, Status=%v, Cost=%v", c.Request.Host, c.Request.Method, c.Request.URL.Path, c.Writer.Status(), det.String())
 }
